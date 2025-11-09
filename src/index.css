@@ -52,3 +52,33 @@
 @media (prefers-reduced-motion: reduce) {
 	.theme-particle { display: none !important; }
 }
+
+/* --- Search Empty State Animations --- */
+@keyframes ecg-dash {
+	0% { stroke-dashoffset: 1200; }
+	100% { stroke-dashoffset: 0; }
+}
+
+.ecg-line {
+	stroke-dasharray: 1200;
+	animation: ecg-dash 3.5s linear infinite;
+}
+
+@keyframes float-slow {
+	0%, 100% { transform: translateY(0); }
+	50% { transform: translateY(-10px); }
+}
+@keyframes float-slower {
+	0%, 100% { transform: translateY(0); }
+	50% { transform: translateY(-6px); }
+}
+
+.animate-float-slow { animation: float-slow 4s ease-in-out infinite; }
+.animate-float-slower { animation: float-slower 5.5s ease-in-out infinite; }
+
+@keyframes pulse-ring {
+	0% { box-shadow: 0 0 0 0 rgba(16,185,129,0.6); }
+	70% { box-shadow: 0 0 0 12px rgba(16,185,129,0); }
+	100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); }
+}
+.animate-pulse-ring { animation: pulse-ring 2s ease-out infinite; border-radius: 9999px; }
