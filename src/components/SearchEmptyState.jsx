@@ -167,7 +167,7 @@ export default function SearchEmptyState({ darkMode }) {
 
           {/* Floating cross */}
           <div className="absolute right-10 bottom-8 animate-float-slower">
-            <svg width="54" height="54" viewBox="0 0 24 24" fill="none" className={`${darkMode ? 'text-indigo-300' : 'text-indigo-500'}`}>
+            <svg width="54" height="54" viewBox="0 0 24 24" fill="none" className={`${darkMode ? 'text-indigo-300' : 'ext-indigo-500'}`}>
               <path d="M10 2h4v6h6v4h-6v6h-4v-6H4V8h6V2z" fill="currentColor" />
             </svg>
           </div>
