@@ -1,6 +1,46 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
+const HEALTH_FACTS = [
+  {
+    icon: '💧',
+    fact: 'Drink 8-10 glasses of water daily to keep your body hydrated and help maintain optimal organ function.'
+  },
+  {
+    icon: '🥗',
+    fact: 'Eat a balanced diet rich in fruits, vegetables, whole grains, and lean proteins to support overall health.'
+  },
+  {
+    icon: '🏃',
+    fact: 'Regular physical activity for at least 30 minutes a day can reduce the risk of chronic diseases by up to 50%.'
+  },
+  {
+    icon: '😴',
+    fact: 'Adults need 7-9 hours of quality sleep each night for proper immune function and mental clarity.'
+  },
+  {
+    icon: '🧘',
+    fact: 'Practice stress management through meditation, yoga, or deep breathing to improve mental and physical well-being.'
+  }
+];
 
 export default function SearchEmptyState({ darkMode }) {
+  const [currentFactIndex, setCurrentFactIndex] = useState(0);
+  const [fadeIn, setFadeIn] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFadeIn(false);
+      setTimeout(() => {
+        setCurrentFactIndex((prev) => (prev + 1) % HEALTH_FACTS.length);
+        setFadeIn(true);
+      }, 400);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const currentFact = HEALTH_FACTS[currentFactIndex];
+
   return (
     <div className={`relative overflow-hidden rounded-2xl border ${darkMode ? 'bg-gray-900/80 border-gray-800' : 'bg-white border-gray-200'} shadow-lg`}>      
       {/* soft background gradients */}
@@ -9,7 +49,73 @@ export default function SearchEmptyState({ darkMode }) {
         <div className={`absolute inset-0 ${darkMode ? 'opacity-20' : 'opacity-30'} bg-[radial-gradient(80%_60%_at_80%_70%,#6366f1_0%,transparent_65%)]`} />
       </div>
 
-      <div className="relative grid md:grid-cols-[1fr,420px] items-center gap-8 p-6 md:p-10">
+      {/* Health Facts Carousel - Now at the top */}
+      <div className="relative z-10 p-6 md:p-8">
+        <div className={`relative rounded-2xl border overflow-hidden backdrop-blur-sm ${
+          darkMode 
+            ? 'bg-linear-to-br from-emerald-900/30 via-indigo-900/30 to-purple-900/30 border-emerald-500/20' 
+            : 'bg-linear-to-br from-emerald-100/80 via-blue-50/80 to-purple-100/80 border-emerald-300/50'
+        } shadow-xl transition-all duration-700`}>
+          {/* Animated gradient overlay */}
+          <div className="absolute inset-0 opacity-30 animate-gradient-shift bg-[linear-gradient(45deg,#10b981,#6366f1,#a855f7,#10b981)] bg-[length:300%_300%]" />
+          
+          <div className="relative px-6 py-6 md:px-8 md:py-7">
+            <div className="flex items-center gap-3 mb-4">
+              <div className={`inline-flex items-center justify-center w-10 h-10 rounded-xl ${
+                darkMode ? 'bg-emerald-600/30 text-emerald-300 shadow-lg shadow-emerald-500/20' : 'bg-white/90 text-emerald-600 shadow-md'
+              } transition-all duration-300`}>
+                <span className="text-xl animate-pulse-slow">💡</span>
+              </div>
+              <h4 className={`text-base md:text-lg font-bold tracking-wide ${darkMode ? 'text-emerald-300' : 'text-emerald-800'}`}>
+                Health Tip of the Moment
+              </h4>
+            </div>
+            
+            <div className={`transition-opacity duration-500 ${fadeIn ? 'opacity-100 animate-fade-in-up' : 'opacity-0'}`}>
+              <div className="flex items-start gap-4 md:gap-5">
+                <div className={`text-4xl md:text-5xl shrink-0 transition-all duration-500 hover:scale-125 hover:rotate-12 ${
+                  darkMode ? 'drop-shadow-[0_0_8px_rgba(16,185,129,0.5)]' : 'drop-shadow-md'
+                }`}>
+                  {currentFact.icon}
+                </div>
+                <p className={`text-sm md:text-base leading-relaxed ${
+                  darkMode ? 'text-gray-200' : 'text-gray-800'
+                } font-medium`}>
+                  {currentFact.fact}
+                </p>
+              </div>
+            </div>
+
+            {/* Progress dots */}
+            <div className="flex items-center justify-center gap-2.5 mt-5">
+              {HEALTH_FACTS.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => {
+                    setFadeIn(false);
+                    setTimeout(() => {
+                      setCurrentFactIndex(idx);
+                      setFadeIn(true);
+                    }, 250);
+                  }}
+                  className={`rounded-full transition-all duration-300 hover:scale-125 ${
+                    idx === currentFactIndex
+                      ? (darkMode 
+                          ? 'bg-emerald-400 w-8 h-2.5 shadow-lg shadow-emerald-500/50' 
+                          : 'bg-emerald-600 w-8 h-2.5 shadow-md')
+                      : (darkMode 
+                          ? 'bg-gray-700 hover:bg-gray-600 w-2.5 h-2.5' 
+                          : 'bg-gray-300 hover:bg-gray-400 w-2.5 h-2.5')
+                  }`}
+                  aria-label={`Go to tip ${idx + 1}`}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="relative grid md:grid-cols-[1fr,420px] items-center gap-8 p-6 md:p-10 pt-0 md:pt-0">
         <div>
           <h3 className={`text-2xl md:text-3xl font-extrabold tracking-tight ${darkMode ? 'text-gray-100' : 'text-gray-900'}`}>Search medicines and compare across pharmacies</h3>
           <p className={`mt-3 text-sm md:text-base leading-relaxed ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
