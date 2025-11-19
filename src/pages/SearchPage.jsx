@@ -99,9 +99,9 @@ export default function SearchPage({ darkMode }) {
       const data = body;
 
   if (enabled.apollo) setApolloResults({ query: medicineName, details: data.data || null });
-  if (enabled.pharmeasy && data.pharmeasy) { const products = Array.isArray(data.pharmeasy.products) ? data.pharmeasy.products : []; if (products.length) setPharmResults({ query: medicineName, products }); }
-  if (enabled.netmeds && data.netmeds && data.netmeds.ok) { const products = Array.isArray(data.netmeds.products) ? data.netmeds.products : []; if (products.length) setNetmedsResults({ query: medicineName, products }); }
-  if (enabled.onemg && data.onemg && data.onemg.ok) { const products = Array.isArray(data.onemg.products) ? data.onemg.products : []; if (products.length) setOneMgResults({ query: medicineName, products }); }
+  if (enabled.pharmeasy && data.pharmeasy) { const products = Array.isArray(data.pharmeasy.products) ? data.pharmeasy.products : []; setPharmResults({ query: medicineName, products }); }
+  if (enabled.netmeds && data.netmeds && data.netmeds.ok) { const products = Array.isArray(data.netmeds.products) ? data.netmeds.products : []; setNetmedsResults({ query: medicineName, products }); }
+  if (enabled.onemg && data.onemg && data.onemg.ok) { const products = Array.isArray(data.onemg.products) ? data.onemg.products : []; setOneMgResults({ query: medicineName, products }); }
   if (enabled.truemeds && data.truemeds && data.truemeds.ok) setTruemedsResults(data.truemeds);
     } catch (err) {
       console.error('Search error:', err);
